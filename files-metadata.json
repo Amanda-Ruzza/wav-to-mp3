@@ -1,0 +1,1 @@
+{"wav": {"filesize_in_mb": 64.21, "sample_rate": 44100, "stereo": true, "duration_in_minutes": 4.24, "frames": 11205828, "bit_depth": "int24"}, "mp3": {"filesize_in_mb": 9.7, "sample_rate": 44100, "stereo": true, "duration_in_minutes": 4.24, "frames": 11207808, "bit_depth": "float32"}}
