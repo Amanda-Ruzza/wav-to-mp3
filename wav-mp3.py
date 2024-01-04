@@ -39,12 +39,8 @@ with AudioFile('4_MMM.mp3') as o:
     mp3_metadata['frames'] = o.frames 
     mp3_metadata['bit_depth'] = o.file_dtype
 
-# context manager to get the metadata
 #TODO: create a variable, so I'm not hardcoding the file. Remember that this will be 'imported' from the GCP Bucket
 
 with open('files-metadata.json', 'w') as f:
   json.dump(files_metadata, f)
-
-
-
-# TODO: use the same method from the WAV to get the mp3 metadata  
+ 
