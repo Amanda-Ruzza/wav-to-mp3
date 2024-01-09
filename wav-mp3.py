@@ -14,8 +14,8 @@ logging.basicConfig(
    ]
 )
 
-# get script directory location
-script_dir = '/Users/amanda.ruzza/Projects/repositories/wav-to-mp3'
+# get script directory location 
+script_dir = dirname(abspath(__file__)) # replace this with the GCP Storage Bucket URL
 logging.info('Script Directory Path: %s', script_dir)
 # construct input path
 input_wav_filename = '4 MMM.wav'
