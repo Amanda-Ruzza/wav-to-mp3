@@ -1,7 +1,43 @@
 import json
-from os.path import getsize
-import numpy as np #numpy makes the iterations through the audio samples 100x's faster than regular math/looping in Python
+import logging
+from os import getcwd
+from os.path import getsize, join, abspath, splitext, dirname, __file__
+# import numpy as np #numpy makes the iterations through the audio samples 100x's faster than regular math/looping in Python
 from pedalboard.io import AudioFile
+
+logging.basicConfig(
+   level=logging.INFO,
+   format='%(asctime)s - %(levelname)s - %(message)s',
+   handlers=[
+       logging.FileHandler('wav-mp3.log'),
+       logging.StreamHandler()
+   ]
+)
+
+# get script directory location
+script_dir = '/Users/amanda.ruzza/Projects/repositories/wav-to-mp3'
+logging.info('Script Directory Path: %s', script_dir)
+# construct input path
+input_wav_filename = '4 MMM.wav'
+input_wav_path = join(script_dir, input_wav_filename)
+
+# clean possible spaces in the WAV file name
+# if ' ' in input_wav_filename:
+clean_input_wav_filename = input_wav_filename.replace(' ', '_')
+# else:
+#    clean_wav_name = input_wav_filename
+input_wav_path = join(script_dir, clean_input_wav_filename)
+
+logging.info('Clean Input WAV Path: %s', input_wav_path)
+# add .WAV extension back to the clean name
+# clean_wav_name, _ = splitext(clean_wav_name)
+
+# join original path with the cleaned file name
+# clean_input_wav_path = abspath(join(script_dir, clean_wav_name + '.wav'))
+# logging.info('Clean Input WAV Path: %s', clean_input_wav_path)
+
+output_mp3_filename = splitext(clean_input_wav_filename)[0] + '.mp3'
+output_mp3_path = join(script_dir, output_mp3_filename)
 
 wav_metadata = {}
 mp3_metadata = {}
@@ -13,7 +49,7 @@ files_metadata = {
 chunk_size = 500_000
 
 # Nesting infile(raw) and outfile(mp3-manipulated) context managers together
-with AudioFile('4 MMM.wav') as f:
+with AudioFile(input_wav_filename) as f:
     # get wav metadata
     samplerate = f.samplerate
     channels = f.num_channels
@@ -25,13 +61,13 @@ with AudioFile('4 MMM.wav') as f:
     wav_metadata['frames'] = f.frames 
     wav_metadata['bit_depth'] = f.file_dtype
 
-    with AudioFile('4_MMM.mp3', 'w', samplerate=samplerate, num_channels=channels) as o:
+    with AudioFile(output_mp3_filename, 'w', samplerate=samplerate, num_channels=channels) as o:
        while f.tell() < f.frames: #as long as there's more audio coming in
           audio = f.read(chunk_size) # this will process the audio file in 4MB chunks of data
           o.write(audio)
 
 # get mp3 metadata
-with AudioFile('4_MMM.mp3') as o:
+with AudioFile(output_mp3_filename) as o:
     mp3_metadata['filesize_in_mb'] = (lambda byte: round(byte/ (1024 ** 2), 2)) (getsize('4_MMM.mp3')) # returns file size in bytes, and converts it into MB. 
     mp3_metadata['sample_rate'] = o.samplerate
     mp3_metadata['stereo'] = (lambda stereo: stereo == 2) (o.num_channels)
