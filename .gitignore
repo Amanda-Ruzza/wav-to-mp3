@@ -1,6 +1,7 @@
-# Audio Files + old metadata:
+# Audio Files + old json:
 *.wav
 *.mp3
+'wav-metadata.json'
 
 
 # Byte-compiled / optimized / DLL files
