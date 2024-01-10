@@ -1,7 +1,7 @@
 # Audio Files + old metadata:
 *.wav
 *.mp3
-wav-metadata.json
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -3,7 +3,6 @@ import logging
 from glob import glob 
 from os import getcwd
 from os.path import getsize, join, splitext, __file__
-# import numpy as np #numpy makes the iterations through the audio samples 100x's faster than regular math/looping in Python
 from pedalboard.io import AudioFile
 
 logging.basicConfig(
@@ -44,7 +43,7 @@ def convert_wav_mp3(logger):
          samplerate = f.samplerate
          channels = f.num_channels
 
-         wav_metadata['filesize_in_mb'] = (lambda byte: round(byte/ (1024 ** 2), 2)) (getsize('4 MMM.wav')) # returns file size in bytes, and converts it into MB. 
+         wav_metadata['filesize_in_mb'] = (lambda byte: round(byte/ (1024 ** 2), 2)) (getsize(input_wav_filename)) # returns file size in bytes, and converts it into MB. 
          wav_metadata['sample_rate'] = f.samplerate
          wav_metadata['stereo'] = (lambda stereo: stereo == 2) (f.num_channels)
          wav_metadata['duration_in_minutes'] = (lambda sec: round(sec /60, 2)) (f.duration)
@@ -58,7 +57,7 @@ def convert_wav_mp3(logger):
 
       # get mp3 metadata
       with AudioFile(output_mp3_filename) as o:
-         mp3_metadata['filesize_in_mb'] = (lambda byte: round(byte/ (1024 ** 2), 2)) (getsize('4_MMM.mp3')) # returns file size in bytes, and converts it into MB. 
+         mp3_metadata['filesize_in_mb'] = (lambda byte: round(byte/ (1024 ** 2), 2)) (getsize(output_mp3_filename)) # returns file size in bytes, and converts it into MB. 
          mp3_metadata['sample_rate'] = o.samplerate
          mp3_metadata['stereo'] = (lambda stereo: stereo == 2) (o.num_channels)
          mp3_metadata['duration_in_minutes'] = (lambda sec: round(sec /60, 2)) (o.duration)
